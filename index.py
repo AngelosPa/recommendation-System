@@ -16,20 +16,17 @@ login = st.text_input("log in with the ID number")
 buttonLogin = st.button("log in to WBSFLIX")
 # loop through the list of movies
 dropdown = st.selectbox("Select a genre", categories)
-st.write("""
-### All time classics""")
-for i in rec_algorithms.recommend("", 10):
-    st.write(i)
+
 if dropdown:
     st.write("""
 ### Our """+dropdown+""" favorites""")
-    for i in rec_algorithms.recommend_genre("Crime", 5):
+    for i in rec_algorithms.recommend_genre(dropdown, 5):
         st.write(i)
 if buttonSearch:
     st.write("""
     ### Because you searched for """ + search + """
     """)
-    for i in rec_algorithms.item_based_recommender(search, 5):
+    for i in rec_algorithms.recommend(search, 5):
         st.write(i)
 if buttonLogin:
     st.write("""### FOR YOU, User""" + login +
@@ -49,3 +46,7 @@ if buttonLogin:
              """ SVD suggests these movies:""")
     for i in rec_algorithms.user_base_recommender_using_svd(int(login), 5):
         st.write(i)
+st.write("""
+### All time classics""")
+for i in rec_algorithms.recommend("", 10):
+    st.write(i)

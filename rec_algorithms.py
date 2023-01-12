@@ -153,40 +153,40 @@ def recommend_genre(genre, n):
     return movies_df.sort_values('popularity', ascending=False).head(n)["title"].tolist()
 
 
-def item_based_recommender(movie_name, n):
+# def item_based_recommender(movie_name, n):
 
-    movies = movies_original.copy()
-    ratings = ratings_original.copy()
-    movies['title_lower'] = movies['title'].str.lower()
-    if len(movies.loc[movies['title_lower'].str.contains(movie_name.lower())]) == 0:
-        return "Movie not found"
-    else:
-        top_popular_for_movieId = movies.loc[movies['title_lower'].str.contains(
-            movie_name.lower())]['movieId'].values[0]
+#     movies = movies_original.copy()
+#     ratings = ratings_original.copy()
+#     movies['title_lower'] = movies['title'].str.lower()
+#     if len(movies.loc[movies['title_lower'].str.contains(movie_name.lower())]) == 0:
+#         return "Movie not found"
+#     else:
+#         top_popular_for_movieId = movies.loc[movies['title_lower'].str.contains(
+#             movie_name.lower())]['movieId'].values[0]
 
-        # # Create a new dataframe with movieId, title and genres
-        movies_df = movies.merge(ratings, on='movieId', how='inner')
-        # # Predator (1987) with movieId == 3527
-        # #sparse matrix
-        movies_crosstab_original = movies_df.pivot_table(
-            index='userId', columns='movieId', values='rating')
-        # movies_crosstab = movies_df.pivot_table(
-        #     index='userId', columns='movieId', values='rating')
-        movies_crosstab = movies_crosstab_original.copy()
-        predator_ratings = movies_crosstab[top_popular_for_movieId]
-        predator_ratings[predator_ratings >= 0]  # exclude NaNs
-        similar_to_predator = movies_crosstab.corrwith(predator_ratings)
-        # NaN means that no users rated both the movie and the predator
-        # drop the NaNs
-        corr_predator = pd.DataFrame(similar_to_predator, columns=['Viewer'])
-        corr_predator.dropna(inplace=True)
-        corr_predator.sort_values('Viewer', ascending=False)
-        rating = pd.DataFrame(ratings.groupby('movieId')['rating'].mean())
-        rating['rating_count'] = ratings.groupby('movieId')['rating'].count()
-        predator_corr_summary = corr_predator.join(rating['rating_count'])
-        predator_corr_summary.drop(top_popular_for_movieId, inplace=True)
-        top = predator_corr_summary[predator_corr_summary['rating_count'] >= 10].sort_values(
-            'Viewer', ascending=False).head(n)
+#         # # Create a new dataframe with movieId, title and genres
+#         movies_df = movies.merge(ratings, on='movieId', how='inner')
+#         # # Predator (1987) with movieId == 3527
+#         # #sparse matrix
+#         movies_crosstab_original = movies_df.pivot_table(
+#             index='userId', columns='movieId', values='rating')
+#         # movies_crosstab = movies_df.pivot_table(
+#         #     index='userId', columns='movieId', values='rating')
+#         movies_crosstab = movies_crosstab_original.copy()
+#         predator_ratings = movies_crosstab[top_popular_for_movieId]
+#         predator_ratings[predator_ratings >= 0]  # exclude NaNs
+#         similar_to_predator = movies_crosstab.corrwith(predator_ratings)
+#         # NaN means that no users rated both the movie and the predator
+#         # drop the NaNs
+#         corr_predator = pd.DataFrame(similar_to_predator, columns=['Viewer'])
+#         corr_predator.dropna(inplace=True)
+#         corr_predator.sort_values('Viewer', ascending=False)
+#         rating = pd.DataFrame(ratings.groupby('movieId')['rating'].mean())
+#         rating['rating_count'] = ratings.groupby('movieId')['rating'].count()
+#         predator_corr_summary = corr_predator.join(rating['rating_count'])
+#         predator_corr_summary.drop(top_popular_for_movieId, inplace=True)
+#         top = predator_corr_summary[predator_corr_summary['rating_count'] >= 10].sort_values(
+#             'Viewer', ascending=False).head(n)
 
-        return top.merge(movies, on='movieId', how='inner')[
-            ['title', 'genres', 'Viewer']]["title"].tolist()
+#         return top.merge(movies, on='movieId', how='inner')[
+#             ['title', 'genres', 'Viewer']]["title"].tolist()
