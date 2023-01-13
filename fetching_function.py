@@ -13,20 +13,20 @@ import requests
 # print(res["image"]["url"])
 
 
-def get_movie_info(movie_name):
+def get_movie_img(movie_name):
 
     url = "https://online-movie-database.p.rapidapi.com/title/find"
 
-    # querystring = {"q": f'{movie_name}'}
-    querystring = {"q": 'the avengers'}
+    querystring = {"q": f'{movie_name}'}
+    # querystring = {"q": 'the avengers'}
 
     headers = {
-        "X-RapidAPI-Key": "eafd80d964msh84d79dbf75cdb6bp18fef8jsn333a4d75cd6f",
+        "X-RapidAPI-Key": "c245780e6amshbf8f6e6604c7425p1efecdjsnb5f05960b7b9",
         "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com"
     }
 
     response = requests.request(
         "GET", url, headers=headers, params=querystring)
-
-    print(response.text)
-    print(get_movie_info("the avengers"))
+    res = response.json()
+    # get picture url
+    return res["results"][0]["image"]["url"]

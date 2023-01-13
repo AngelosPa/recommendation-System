@@ -3,16 +3,15 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import MinMaxScaler
-from surprise import SVD, KNNBaseline, KNNBasic, KNNWithMeans, KNNWithZScore, NMF, NormalPredictor, BaselineOnly, CoClustering
+from surprise import SVD, KNNBaseline, KNNBasic, KNNWithMeans, KNNWithZScore,  NormalPredictor, BaselineOnly, CoClustering
 from surprise import Dataset
-from surprise.model_selection import cross_validate
 from surprise import Reader
 pd.options.mode.chained_assignment = None  # default='warn'
 movies_original = pd.read_csv('movies.csv')
 ratings_original = pd.read_csv('ratings.csv')
 links_original = pd.read_csv('links.csv')
 reader = Reader()
-reader = Reader(rating_scale=(0, 5))
+reader = Reader(rating_scale=(0.5, 5))
 svd = SVD()
 KNNBaseline = KNNBaseline()
 KNNBasic = KNNBasic()
