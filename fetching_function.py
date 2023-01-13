@@ -21,7 +21,7 @@ def get_movie_img(movie_name):
     # querystring = {"q": 'the avengers'}
 
     headers = {
-        "X-RapidAPI-Key": "c245780e6amshbf8f6e6604c7425p1efecdjsnb5f05960b7b9",
+        "X-RapidAPI-Key": "639b12a7a5msh373ca3c1d141b4ep19e107jsn6ae77a65c491",
         "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com"
     }
 
